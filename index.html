@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frog Terminal Chat</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+        .terminal-header {
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .terminal-title {
+            font-size: 1.2em;
+            color: #00ff00;
+        }
+        .chat-box {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-box::-webkit-scrollbar-track {
+            background: #000;
+        }
+        .chat-box::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 4px;
+        }
+        .message {
+            margin-bottom: 10px;
+        }
+        .user-message {
+            color: #ffffff;
+        }
+        .user-message::before {
+            content: "user@frogchat:~$ ";
+            color: #00ff00;
+        }
+        .frog-message {
+            color: #00ff00;
+            white-space: pre;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #00ff00;
+            padding-top: 10px;
+        }
+        .prompt {
+            color: #00ff00;
+            white-space: nowrap;
+            padding: 5px;
+        }
+        input {
+            flex: 1;
+            background: #000;
+            border: none;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            padding: 5px;
+            outline: none;
+        }
+        input:focus {
+            outline: none;
+        }
+        .cursor {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-title">Frog Terminal v1.0.0</div>
+            </div>
+            
+            <div class="chat-box" id="chatBox">
+                <div class="message frog-message">
+[SYSTEM] Connection established to Frog Terminal server...
+[SYSTEM] Starting Frog Terminal session...
+
+╭──────────────────────╮
+│    Terminal Ready!   │
+│      (。⋎。)         │
+│       ╰━━╯          │
+│        🐸           │
+╰──────────────────────╯
+
+Type your message and press Enter...</div>
+            </div>
+            
+            <div class="input-area">
+                <span class="prompt">user@frogchat:~$</span>
+                <input type="text" id="userInput" placeholder="_">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const frogResponses = [
+            `[FROG@TERMINAL]~$ Processing input...
+
+╭──────────────────────╮
+│    Ribbit! Indeed!    │
+│      (。⋎。)         │
+│       ╰━━╯          │
+│        🐸           │
+╰──────────────────────╯`,
+            `[FROG@TERMINAL]~$ Analyzing query...
+
+╭──────────────────────╮
+│   Hmm, interesting!  │
+│      (。⋎。)         │
+│       ╰━━╯          │
+│     *hop hop*       │
+╰──────────────────────╯`,
+            `[FROG@TERMINAL]~$ Computing response...
+
+╭──────────────────────╮
+│   Let me think...    │
+│      (。⋎。)         │
+│       ╰━━╯          │
+│    *ribbit ribbit*   │
+╰──────────────────────╯`,
+            `[FROG@TERMINAL]~$ Generating output...
+
+╭──────────────────────╮
+│   How fascinating!   │
+│      (。⋎。)         │
+│       ╰━━╯          │
+│     *happy frog*     │
+╰──────────────────────╯`
+        ];
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatBox = document.getElementById('chatBox');
+            
+            if (input.value.trim() === '') return;
+
+            // Add user message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-message';
+            userDiv.textContent = input.value;
+            chatBox.appendChild(userDiv);
+
+            // Add random frog response with typing effect
+            const frogDiv = document.createElement('div');
+            frogDiv.className = 'message frog-message';
+            const randomResponse = frogResponses[Math.floor(Math.random() * frogResponses.length)];
+            frogDiv.textContent = randomResponse;
+            chatBox.appendChild(frogDiv);
+
+            // Clear input and scroll to bottom
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Allow Enter key to send message
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
